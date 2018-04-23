@@ -2,7 +2,6 @@
 ```
 node: v8.9.0
 npm: 5.5.1
-系统：window7
 ```
 
 # 爬取目标
@@ -35,6 +34,8 @@ mongoose 存储MongoDB数据
 # 安装依赖 npm npm install --save
 
 # 启动 node app.js
+
+示例：
 ```
 [nodemon] restarting due to changes...
 [nodemon] starting `node app.js`

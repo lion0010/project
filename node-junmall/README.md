@@ -1,7 +1,5 @@
 # 前言
 
-### 我是一名来者广州的前端开发者，梦想成为一名全栈工程师，为了这个梦，不断在网络上探索，在探索学习的过程中，做了这一个项目练手，原本只想一个商品列表和购物车，但是后来自己觉得就写那么少，觉得不够，不满足，就越写越多。。。。（源码包含大量注释，拥有非常好的可读性）。
-
 ## 技术栈
 
 node + express + mongoose + formidable + uuid + axios + cheerio 
@@ -10,24 +8,13 @@ node + express + mongoose + formidable + uuid + axios + cheerio
 
 ## 项目运行
 
-#### 注:运行前确保机子安装 node（6.0.0版本以上） moogodb（3.0版本以上） 环境
-
-### 本地环境（windows7系统）
-
-```
-git clone https://github.com/Apple-ljj/node-junmall.git
-
-cd node-junmall
-
-//复制node-junmall里面的db（数据库文件到D盘）
-xcopy ./db d:\db /e
-(F = 文件，D = 目录)? D
-
-//导入数据库
+第一步：启动本地mongodb数据库
+mongod --dbpath 你的mongodb数据路径
+第二步：导入数据
 mongorestore --drop d:\db
-
+第三步： npm i 安装依赖
 npm install
-
+第四步：启动node服务
 npm start
 
 ```
@@ -63,17 +50,6 @@ node webpp
 
 ### [后台演示](http://120.78.185.163/junmall/#/admin) （请用chrome浏览器或者极速模式查看）
 
-# 说明
-
->  如果对您有帮助，您可以点右上角 "Star" 支持一下 谢谢！ ^_^
-
->  或者您可以 "follow" 一下，我会不断开源更多的有趣的项目
-
->  开发环境 windows7 64位  Chrome 63  nodejs 8.9.3  moogodb 3.4
-
->  如有问题请直接在 Issues 中提，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
-
->  开源爱好者交流群：18994445 (QQ群)
 
 
 # 目标功能
