@@ -11,7 +11,7 @@
   <div class="navbar">
     <div class="navbar-left-container">
       <a href="/junmall">
-        <img class="navbar-brand-logo" src="static/logo.png"></a>
+        <img class="navbar-brand-logo" src="static/logo.jpg"></a>
     </div>
     <div class="navbar-right-container" style="display: flex;">
       <div class="navbar-menu-container">
@@ -344,3 +344,9 @@
     },
   }
 </script>
+
+<style scoped>
+img.navbar-brand-logo {
+  height: 68px
+}
+</style>

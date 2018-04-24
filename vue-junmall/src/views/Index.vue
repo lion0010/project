@@ -24,8 +24,8 @@
   </svg>
       <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="str in listImg">
-              <img :src="str.imgLink" alt="">
+            <div class="swiper-slide" v-for="list in listImg">
+              <img :src="list.imgLink" alt="">
             </div>
         </div>
     <div class="swiper-pagination"></div>

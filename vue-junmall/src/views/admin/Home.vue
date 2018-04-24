@@ -102,11 +102,6 @@
 <script>
 import axios from 'axios'
   export default {
-        mounted() {
-            this.$alert('本系统对数据库进行真实操作,请不要乱删东西喔', '小俊提示', {
-          confirmButtonText: '确定'
-        });
-        },
     methods: {
       handleOpen(key, keyPath) {
         // console.log(key, keyPath);

@@ -70,10 +70,8 @@ import axios from 'axios'
         },
     methods: {
       beforeAvatarUpload(file) {
-        console.log(file.type)
         const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 500 / 500 < 1;
-        console.log(file.size)
+        const isLt2M = file.size / 1024 < 1024;
         if (!isJPG) {
           this.$message.error('只支持JPG格式!');
         }
@@ -82,23 +80,22 @@ import axios from 'axios'
         }
         return isJPG ;
       },
-    uploadersuc(fulAvatar){
-        console.log('上传成功')
-          this.userlist();
-        console.log(fulAvatar.imgLink)
+      uploadersuc(fulAvatar){
+        console.log(111)
+        this.userlist();
       },
-        handleEdit(index, row) {
-       this.$message.error('编辑功能暂未开放');
+      handleEdit(index, row) {
+        this.$message.error('编辑功能暂未开放');
       },
       handleDelete(index, row) {
               axios.post('/admin/delimg',{imgId:row.imgId}).then((respone)=>{
                 let res =respone.data;
                 if(res.status=='0'){
-                  this.userlist();
                   this.$message({
                     message: '删除成功',
                     type: 'success'
                   });
+                  this.userlist();
                 }else{
                    this.$message.error('您没有权限删除');
                 }
@@ -106,11 +103,12 @@ import axios from 'axios'
       },
       userlist(){
             this.loading=true;
-            axios.get("/admin/imglist").then((result)=>{
+            axios.get("/admin/imglist").then((res)=>{
               this.loading=false;
-              let res =result.data;
-              if(res.status=="0"){
-                this.imglist=res.result.list
+              let result =res.data;
+              console.log(res)
+              if(result.status=="0"){
+                this.imglist=result.result.list
               }              
             })
           },

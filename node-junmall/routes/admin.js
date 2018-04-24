@@ -256,9 +256,9 @@ router.post("/editgoods",function(req,res,next){
 router.post('/uploader', function(req, res) {
   var form = new formidable.IncomingForm();   //创建上传表单
   form.encoding = 'utf-8';        //设置编辑
-  form.uploadDir = '../' + AVATAR_UPLOAD_FOLDER;     //设置上传目录
+  form.uploadDir = './' + AVATAR_UPLOAD_FOLDER;     //设置上传目录
   form.keepExtensions = true;     //保留后缀
-  form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
+  form.maxFieldsSize = 10 * 1024 * 1024;   //文件大小
   form.parse(req, function(err, fields, files) {
     if (err) {
       res.locals.error = err;
@@ -338,10 +338,9 @@ router.get('/imglist', function(req, res) {
 //轮播图删除接口
  router.post("/delimg",function(req,res,next){
     var adminId = req.cookies.adminId,imgId = req.body.imgId;
-    console.log(imgId);
-    if(adminId!=undefined){
-      if(imgId=="10001"||imgId=="10002"||imgId=="10003"){
-        console.log('进入')
+    console.log(adminId)
+    if(adminId){
+      if(adminId != '88888888'){
         res.json({
           status:"2",
           msg:'没有权限',
@@ -349,10 +348,12 @@ router.get('/imglist', function(req, res) {
         })
       }else{
          imgs.findOne({imgId:imgId},function(err,doc){
-          var PathName='../'+AVATAR_UPLOAD_FOLDER+doc.imgPathName
+          var PathName= '.' + AVATAR_UPLOAD_FOLDER+doc.imgLink.slice(doc.imgLink.indexOf('images') + 7)
+          console.log(PathName)
               //删除目录文件
               fs.unlink(PathName,function(err,doc){
                 if(err){
+                  console.log(err)
                   res.json({
                     status:"2",
                     msg:'删除路径错误',
@@ -362,20 +363,20 @@ router.get('/imglist', function(req, res) {
                     imgs.remove({
                       'imgId':imgId
                     },function(err,doc){
-                if(err){
-                  res.json({
-                    status:"1",
-                    msg:err.message,
-                    result:''
-                  })
-                }else{
-                  res.json({
-                    status:"0",
-                    msg:'删除成功',
-                    result:''
-                  })
-                }
-                })
+                      if(err){
+                        res.json({
+                          status:"1",
+                          msg:err.message,
+                          result:''
+                        })
+                      }else{
+                        res.json({
+                          status:"0",
+                          msg:'删除成功',
+                          result:''
+                        })
+                      }
+                    })
               }
             });
          })
