@@ -4,7 +4,7 @@
 			<el-col :span="24" >
 			<el-col :span="16" class="logo">
 				<span>
-					<!-- 俊猫商城管理系统 -->
+					<!-- 万鹿商城管理系统 -->
 					<a href="/junmall/#/Home/about">
 					<img src="static/adminlogo.png" /> 
 					</a>
