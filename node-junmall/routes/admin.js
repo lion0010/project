@@ -389,4 +389,40 @@ router.get('/imglist', function(req, res) {
         })
     }
 })
+//删除用户接口
+router.post('/delUser', function (req, res, next) {
+	let userName = req.body.userName
+	User.remove({ userName }, function (err, docs) {
+		if (err) {
+			res.json({
+				status: '1',
+				msg: err.message,
+			})
+		} else {
+			res.json({
+				status: '0',
+				msg: '删除用户成功'
+			})
+		}
+	})
+})
+// 查看用户详情
+router.get('/userInfo', function (req, res, next) {
+  let userName = req.query.userName
+  User.find({ userName }, function (err, docs) {
+    console.log(docs)
+    if (err) {
+      res.json({
+        status: '1',
+        msg: err.message
+      })
+    } else {
+      res.json({
+        status: '0',
+        msg: '',
+        data: docs
+      })
+    }
+  })
+})
 module.exports = router;
