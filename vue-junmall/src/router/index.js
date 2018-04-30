@@ -7,6 +7,7 @@ import Cart from '@/views/Cart'
 import Address from '@/views/Address'
 import OrderConfirm from '@/views/OrderConfirm'
 import orderSuccess from '@/views/orderSuccess'
+import Order from '@/views/Order'
 import Admin from '@/views/admin/Admin'
 import Home from '@/views/admin/Home'
 import userlist from '@/views/admin/userlist'
@@ -52,6 +53,11 @@ export default new Router({
       path:'/orderSuccess',
       name:'orderSuccess',
       component:orderSuccess
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order
     },
     {
       path:'/Admin',

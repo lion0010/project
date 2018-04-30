@@ -16,7 +16,14 @@
     <div class="navbar-right-container" style="display: flex;">
       <div class="navbar-menu-container">
         <!--<a href="/" class="navbar-link">我的账户</a>-->
-        <span v-if="nikeName">{{nikeName}}</span>
+        <el-dropdown size="small" @command="handleCommand" v-if="nikeName">
+          <span class="el-dropdown-link">
+            {{ nikeName }}
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="/order">我的订单</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <a href="javascript:void(0)" class="navbar-link" @click="btnLogin('ruleForm')" v-if="!nikeName">登录</a>
            <a href="javascript:void(0)" class="navbar-link" @click="btnSign('ruleForm')" v-if="!nikeName">注册</a>
         <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-if="nikeName">退出</a>
@@ -90,263 +97,268 @@
 </template>
 <style>
 
-
 </style>
 <script type="text/javascript">
-  import './../assets/css/login.css'
-  // import verify from "vue-verify-plugin";
-  import axios from 'axios'
-  import {mapState} from 'vuex'//多个vuex引入简写
-  // Vue.use(verify,{
-  //     blur:true
-  // });
-  export default{
-    data(){
-      var validatename = (rule, value, callback) => {
-        let reg=/^[0-9a-zA-Z]+$/
-        if (value.trim() === '') {
-          callback(new Error('请输入用户名'));
-        }else if(!reg.test(value)){
-          callback(new Error('用户名不能使用中文'));
-        }else if(value.length<6){
-           callback(new Error('用户名不能少于6位'));
-        }else {
-          callback();
+import "./../assets/css/login.css";
+// import verify from "vue-verify-plugin";
+import axios from "axios";
+import { mapState } from "vuex"; //多个vuex引入简写
+// Vue.use(verify,{
+//     blur:true
+// });
+export default {
+  data() {
+    var validatename = (rule, value, callback) => {
+      let reg = /^[0-9a-zA-Z]+$/;
+      if (value.trim() === "") {
+        callback(new Error("请输入用户名"));
+      } else if (!reg.test(value)) {
+        callback(new Error("用户名不能使用中文"));
+      } else if (value.length < 6) {
+        callback(new Error("用户名不能少于6位"));
+      } else {
+        callback();
+      }
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value.trim() === "") {
+        callback(new Error("请输入密码"));
+      } else if (value.length < 6) {
+        callback(new Error("密码不能少于6位"));
+      } else {
+        if (this.ruleForm.checkPass !== "") {
+          this.$refs.ruleForm.validateField("checkPass");
         }
-      };
-      var validatePass = (rule, value, callback) => {
-        if (value.trim() === '') {
-          callback(new Error('请输入密码'));
-        }else if(value.length<6){
-           callback(new Error('密码不能少于6位'));
-        }else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+    var validateemail = (rule, value, callback) => {
+      let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+      if (!value) {
+        return callback(new Error("请输入邮件"));
+      } else if (!reg.test(value)) {
+        return callback(new Error("请输入正确的邮箱"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      mdshow: false,
+      namesize: 15,
+      errorTip: false,
+      logindiv: false,
+      Signdiv: false,
+      nikeName: "",
+      time: true,
+      ruleForm: {
+        //登录
+        userName: "",
+        userPwd: "",
+        //注册
+        name: "",
+        pass: "",
+        checkPass: "",
+        email: ""
+      },
+      rules2: {
+        //注册
+        name: [{ validator: validatename, trigger: "blur,change" }],
+        pass: [{ validator: validatePass, trigger: "blur,change" }],
+        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        email: [{ validator: validateemail, trigger: "blur,change" }]
+      }
+    };
+  },
+  mounted() {
+    this.checklogin();
+  },
+  computed: {
+    ...mapState(["carCount", "mdShow"]) //简写
+    // carCount(){
+    // return this.$store.state.carCount;
+    // },
+  },
+  methods: {
+    checklogin() {
+      axios.get("/users/checklogin").then(res => {
+        if (res.data.status == "0") {
+          //接口直接赋值
+          this.nikeName = res.data.result;
+          this.getCart();
+          this.$store.commit("btnmdShow", false);
         }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.pass) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-      var validateemail = (rule, value, callback) => {
-        let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
-        if (!value) {
-          return callback(new Error('请输入邮件'));
-        }else if(!reg.test(value)){
-          return callback(new Error('请输入正确的邮箱'));
-        }else{
-           callback();
-        }
-      };
-      return{
-        mdshow:false,
-        namesize:15,
-        errorTip:false,
-        logindiv:false,
-        Signdiv:false,
-        nikeName:"",
-        time:true,
-        ruleForm: {
-          //登录
-          userName:'',
-          userPwd:'',
-          //注册
-          name:'',
-          pass: '',
-          checkPass: '',
-          email: ''
-        },
-        rules2: {
-          //注册
-          name: [
-            { validator: validatename,trigger: 'blur,change' }
-          ],
-          pass: [
-            { validator: validatePass, trigger: 'blur,change' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ],
-          email: [
-            { validator: validateemail, trigger: 'blur,change' }
-          ],
-        }
-      };
+      });
     },
-    mounted(){
-          this.checklogin();
-        },
-    computed:{
-      ...mapState(['carCount','mdShow'])//简写
-      // carCount(){
-         // return this.$store.state.carCount;
-      // },
-    },
-    methods:{
-      checklogin(){
-          axios.get("/users/checklogin").then((res)=>{
-              if(res.data.status=='0'){
-                  //接口直接赋值
-                this.nikeName= res.data.result;
-                  this.getCart();
-                   this.$store.commit("btnmdShow",false)
-                 }
-          })
-        },
-        btnLogin(formName){
-          this.logindiv=true;
+    btnLogin(formName) {
+      this.logindiv = true;
 
-           this.$refs[formName].resetFields();
-        },
-        btnSign(formName){
-           this.Signdiv=true;
-            //   console.log(this.$refs[formName].resetFields());
-           this.$refs[formName].resetFields();
-        },
-      login(){
-        //防止重复点击
-        if(!this.time){
-           return false;
-        }
-        var _this=this
-        this.time=false;            
-        var time=setTimeout(function(){
-           _this.time=true;
-           clearInterval(time);  
-        },1000);
-          axios.post('/users/login',{
-            userName:this.ruleForm.userName,
-            userPwd:this.ruleForm.userPwd
-          }).then((renponse)=>{
-            let res=renponse.data;
-                  
-            if(res.status=='0'){
-              console.log("登录成功")
-              this.logindiv=false;
-              this.rorTip=false;
-              this.nikeName=res.result.userName;
-              this.$notify({
-                title: '小俊提示',
-                message: '登录成功',
-                type: 'success',
-                duration: 2000
-            });
-                    this.$store.commit("btnmdShow",false)
-              this.getCart();
-            }else{
-              // this.errorTip=true;
-                this.$notify.error({
-                  title: '错误提示',
-                  message: '您的输入的帐号密码不正确',
-                  duration: 3000
-                });
-            }
-          })
-      },
-      logOut(){
-        this.$store.commit("initCar",0)
-        axios.post("/users/logout").then((renponse)=>{
-            let res=renponse.data;
-            if(res.status=='0'){
-              this.nikeName = ''
-                    this.$store.commit("btnmdShow",true)
-            }
+      this.$refs[formName].resetFields();
+    },
+    btnSign(formName) {
+      this.Signdiv = true;
+      //   console.log(this.$refs[formName].resetFields());
+      this.$refs[formName].resetFields();
+    },
+    login() {
+      //防止重复点击
+      if (!this.time) {
+        return false;
+      }
+      var _this = this;
+      this.time = false;
+      var time = setTimeout(function() {
+        _this.time = true;
+        clearInterval(time);
+      }, 1000);
+      axios
+        .post("/users/login", {
+          userName: this.ruleForm.userName,
+          userPwd: this.ruleForm.userPwd
         })
-      },
-      Signup(formName){
-        if(!this.time){
-           return false;
-        }
-        var _this=this
-        this.time=false;            
-        var time=setTimeout(function(){
-           _this.time=true;
-           clearInterval(time);  
-        },2000);
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-        axios.post('/users/Signup',{
-            userName:this.ruleForm.name,
-            userPwd:this.ruleForm.checkPass,
-            userEmail:this.ruleForm.email
-          }).then((renponse)=>{
-            let res=renponse.data;
-            if(res.status=='0'){
-              this.Signdiv=false;
-              //接口直接赋值
-              this.$notify({
-                title: '小俊提示',
-                message: '注册成功',
-                type: 'success',
-                duration: 2000
+        .then(renponse => {
+          let res = renponse.data;
+
+          if (res.status == "0") {
+            console.log("登录成功");
+            this.logindiv = false;
+            this.rorTip = false;
+            this.nikeName = res.result.userName;
+            this.$notify({
+              title: "小俊提示",
+              message: "登录成功",
+              type: "success",
+              duration: 2000
             });
-              //注册成功后自动登录
-              axios.post('/users/login',{
-            userName:this.ruleForm.name,
-            userPwd:this.ruleForm.checkPass
-          }).then((renponse)=>{
-            let res=renponse.data;      
-              this.nikeName=res.result.userName;
-          })     
-            }else{
-                this.$notify.error({
-                  title: '错误提示',
-                  message: '用户名已经存在',
-                  duration: 2000
-                });
-            }
-          })
+            this.$store.commit("btnmdShow", false);
+            this.getCart();
           } else {
-               this.$notify.error({
-                  title: '错误提示',
-                  message: '您的输入有误请重新输入',
-                  duration: 2000
-                });
-            return false;
+            // this.errorTip=true;
+            this.$notify.error({
+              title: "错误提示",
+              message: "您的输入的帐号密码不正确",
+              duration: 3000
+            });
           }
         });
     },
-    cart(){
-        if(!this.time){
-           return false;
+    logOut() {
+      this.$store.commit("initCar", 0);
+      axios.post("/users/logout").then(renponse => {
+        let res = renponse.data;
+        if (res.status == "0") {
+          this.nikeName = "";
+          this.$store.commit("btnmdShow", true);
         }
-        var _this=this
-        this.time=false;            
-        var time=setTimeout(function(){
-           _this.time=true;
-           clearInterval(time);  
-        },2000);
-      if(this.nikeName){
-          this.$router.push({
-              path:'/cart'
-          })
-      }else{
+      });
+    },
+    Signup(formName) {
+      if (!this.time) {
+        return false;
+      }
+      var _this = this;
+      this.time = false;
+      var time = setTimeout(function() {
+        _this.time = true;
+        clearInterval(time);
+      }, 2000);
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          axios
+            .post("/users/Signup", {
+              userName: this.ruleForm.name,
+              userPwd: this.ruleForm.checkPass,
+              userEmail: this.ruleForm.email
+            })
+            .then(renponse => {
+              let res = renponse.data;
+              if (res.status == "0") {
+                this.Signdiv = false;
+                //接口直接赋值
+                this.$notify({
+                  title: "小俊提示",
+                  message: "注册成功",
+                  type: "success",
+                  duration: 2000
+                });
+                //注册成功后自动登录
+                axios
+                  .post("/users/login", {
+                    userName: this.ruleForm.name,
+                    userPwd: this.ruleForm.checkPass
+                  })
+                  .then(renponse => {
+                    let res = renponse.data;
+                    this.nikeName = res.result.userName;
+                  });
+              } else {
+                this.$notify.error({
+                  title: "错误提示",
+                  message: "用户名已经存在",
+                  duration: 2000
+                });
+              }
+            });
+        } else {
           this.$notify.error({
-                title: '错误提示',
-                message: '未登录，无法进去购物车',
-                duration: 2000
+            title: "错误提示",
+            message: "您的输入有误请重新输入",
+            duration: 2000
           });
+          return false;
+        }
+      });
+    },
+    cart() {
+      if (!this.time) {
+        return false;
+      }
+      var _this = this;
+      this.time = false;
+      var time = setTimeout(function() {
+        _this.time = true;
+        clearInterval(time);
+      }, 2000);
+      if (this.nikeName) {
+        this.$router.push({
+          path: "/cart"
+        });
+      } else {
+        this.$notify.error({
+          title: "错误提示",
+          message: "未登录，无法进去购物车",
+          duration: 2000
+        });
       }
     },
-      getCart(){
-        axios.get('/users/getCart').then((renponse)=>{
-            let res=renponse.data;
-            this.$store.commit("initCar",res.result)
-        })
-      }
+    getCart() {
+      axios.get("/users/getCart").then(renponse => {
+        let res = renponse.data;
+        this.$store.commit("initCar", res.result);
+      });
     },
+    handleCommand(command) {
+      this.$router.push(command);
+    }
   }
+};
 </script>
 
 <style scoped>
 img.navbar-brand-logo {
-  height: 68px
+  height: 68px;
+}
+.el-dropdown-link {
+  cursor: pointer;
+  /* color: #409EFF; */
+  font-size: 16px;
 }
 </style>
