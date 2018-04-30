@@ -72,11 +72,11 @@ router.post('/login', function (req, res, next) {
 				//cookie存储
 				res.cookie("userId", doc.userId, {
 					path: '/', //存储的路劲
-					maxAge: 1000 * 60 * 60 //存储一个小时
+					maxAge: 1000 * 60 * 60 * 24 //存储一天
 				})
 				res.cookie("userName", doc.userName, {
 					path: '/', //存储的路劲
-					maxAge: 1000 * 60 * 60 //存储一个小时
+					maxAge: 1000 * 60 * 60 * 24 //存储一天
 				})
 				// req.session.user=doc;
 				res.json({
@@ -597,6 +597,69 @@ router.get('/orderDetail', function (req, res, next) {
 				})
 			}
 
+		}
+	})
+})
+// 获取用户订单列表
+router.get('/order', function (req, res, next) {
+	let userId = req.cookies.userId;
+	User.find({
+		userId
+	}, function (err, doc) {
+		if (err) {
+			res.json({
+				status: '1',
+				message: err.message
+			})
+		} else {
+
+			// {
+			// 	time: '2018-03-20',
+			// 	orderId: 666666666666666666,
+			// 	tableData: [{
+			// 		img: '2016-05-04',
+			// 		detail: {
+			// 			productName: '这是一件商品',
+			// 			desc: '这是对商品的描述'
+			// 		},
+			// 		signal: '8',
+			// 		number: 1,
+			// 		productOpe: '',
+			// 		realPayment: '8',
+			// 		status: '交易成功',
+			// 		comment: '评论'
+			// 	}]
+			// }
+			let result = []
+			let orderList = doc[0].orderList
+			console.log(doc)
+			for (let i = 0, len = orderList.length; i < len; i ++) {
+				let tempObj = {}
+				tempObj.time = orderList[i].createData.split(' ')[0]
+				tempObj.orderId = orderList[i].orderId
+				tempObj.tableData = []
+				let goods = orderList[i]['goodsList']
+				for (let j = 0, length = goods.length; j < length; j ++) {
+					let obj = {}
+					obj.img = goods[j]['productImage']
+					obj.detail = {}
+					obj.detail.productName = goods[j]['productName']
+					obj.detail.desc = goods[j]['details']
+					obj.detail.productId = goods[j]['productId']
+					obj.signal = goods[j]['salePrice']
+					obj.number = goods[j]['productNum']
+					obj.productOpt = '',
+					obj.realPayment = goods[j]['salePrice']
+					obj.status = '交易成功'
+					obj.comment = '评论'
+					tempObj.tableData.push(obj)
+				}
+				result.push(tempObj)
+			}
+			res.json({
+				status: '0',
+				result: result
+			})
 		}
 	})
 })

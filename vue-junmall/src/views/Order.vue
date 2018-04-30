@@ -53,7 +53,7 @@
             width="180"
             align="center">
             <template slot-scope="scope">
-              <img class="product-img" src="" alt="这是一张图片">
+              <img class="product-img" :src="scope.row.img" alt="这是一张图片">
             </template>
           </el-table-column>
           <el-table-column
@@ -61,7 +61,7 @@
             :label="'订单号:' + item.orderId">
             <template slot-scope="scope">
               <p>{{ scope.row.detail.productName }}</p>
-              <p>{{ scope.row.detail.desc }}</p>
+              <p style="font-size: 12px">{{ scope.row.detail.desc }}</p>
             </template>
           </el-table-column>
           <el-table-column
@@ -95,7 +95,8 @@
             align="center">
             <template slot-scope="scope">
               <el-button
-                type="text">
+                type="text"
+                @click="commentProduct(scope.row.detail.productId)">
                 {{ scope.row.comment }}
               </el-button>
             </template>
@@ -111,6 +112,7 @@
 import NavHeader from '@/components/Header'
 import NavFooter from '@/components/Footer'
 import NavBread from '@/components/Bread'
+import axios from 'axios'
 export default {
   components: {
     NavHeader,
@@ -127,7 +129,8 @@ export default {
             img: '2016-05-04',
             detail: {
               productName: '这是一件商品',
-              desc: '这是对商品的描述'
+              desc: '这是对商品的描述',
+              productId: '666'
             },
             signal: '8',
             number: 1,
@@ -139,6 +142,25 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    // 获取订单列表
+    getOrder() {
+      this.axios.get('/users/order').then((res) => {
+        console.log(res)
+        if (res.status === 200) {
+          let data = res.data.result
+          this.orderData = data
+        }
+      }) 
+    },
+    // 评论的方法
+    commentProduct(productId) {
+      console.log(productId)
+    }
+  },
+  created() {
+    this.getOrder()
   }
 }
 </script>
@@ -160,7 +182,9 @@ export default {
 .product-img {
   width: 100px;
   height: 100px;
-  border: 1px solid #aaa;
+}
+.table-data {
+  margin-bottom: 20px
 }
 </style>
 
