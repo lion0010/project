@@ -82,7 +82,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/junmall/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps
