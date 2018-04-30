@@ -24,14 +24,45 @@ router.post('/saveComment', function (req, res, next) {
       })
     } else {
       if (doc.length !== 0) {
-        res.json({
-          status: '0',
-          msg: 'update'
+        Comment.update({
+          commentId: doc[0]['commentId']
+        }, {
+          content,
+          time: date
+        }, function (err, doc) {
+          if (err) {
+            res.json({
+              status: '1',
+              msg: err.msssage
+            })
+          } else {
+            res.json({
+              status: '0',
+              msg: '更新评论成功'
+            })
+          }
         })
       } else {
-        res.json({
-          status: '0',
-          msg: 'create'
+        Comment.create({
+          userId,
+          productId,
+          content,
+          time: date,
+          commentPic: '',
+          Avator: '',
+          commentId: uuidv4()
+        }, function(err, doc) {
+          if (err) {
+            res.json({
+              status: '1',
+              msg: err.message
+            })
+          } else {
+            res.json({
+              status: '0',
+              msg: '评论成功'
+            })
+          }
         })
       }
     }

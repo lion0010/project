@@ -20,7 +20,6 @@ router.post('/login',function(req,res,next){
       userPwd:req.body.userPwd
     }
   Admin.findOne(param,function(err,doc){
- console.log(doc)
     if(err){
       res.json({
         status:'1',
@@ -74,7 +73,6 @@ router.post("/logout",function(req,res,next){
     let skip = (page-1)*pageSize;
   var priceGt ='',priceLte='';
   var adminId = req.cookies.adminId;
-  console.log(adminId)
   let UserModel=User.find({}).skip(skip).limit(pageSize);
   if(adminId!=undefined){
    UserModel.exec({},function(err,doc){
@@ -118,7 +116,6 @@ router.post("/logout",function(req,res,next){
     let skip = (page-1)*pageSize;
   var priceGt ='',priceLte='';
   var adminId = req.cookies.adminId;
-  console.log(adminId)
   // if(shopname!==undefined){
   //     var params = {
   //       productName:{ $regex:shopname }
@@ -338,7 +335,6 @@ router.get('/imglist', function(req, res) {
 //轮播图删除接口
  router.post("/delimg",function(req,res,next){
     var adminId = req.cookies.adminId,imgId = req.body.imgId;
-    console.log(adminId)
     if(adminId){
       if(adminId != '88888888'){
         res.json({
@@ -349,11 +345,9 @@ router.get('/imglist', function(req, res) {
       }else{
          imgs.findOne({imgId:imgId},function(err,doc){
           var PathName= '.' + AVATAR_UPLOAD_FOLDER+doc.imgLink.slice(doc.imgLink.indexOf('images') + 7)
-          console.log(PathName)
               //删除目录文件
               fs.unlink(PathName,function(err,doc){
                 if(err){
-                  console.log(err)
                   res.json({
                     status:"2",
                     msg:'删除路径错误',
@@ -410,7 +404,6 @@ router.post('/delUser', function (req, res, next) {
 router.get('/userInfo', function (req, res, next) {
   let userName = req.query.userName
   User.find({ userName }, function (err, docs) {
-    console.log(docs)
     if (err) {
       res.json({
         status: '1',

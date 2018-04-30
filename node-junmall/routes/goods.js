@@ -45,7 +45,6 @@
     //根据id查询商品信息
     }else if(shopid!==undefined) {
          var params = {productId:shopid};
-         console.log(shopid);
     }else{
           var params = {};
     }
@@ -54,7 +53,6 @@
     //总条数
     Goods.count(function(err, res){
       if(err){
-        console.log(err)
       }else{
         counts=res
       }
@@ -109,9 +107,7 @@ if(userId===undefined){
             goodsItme=item;
             item.productNum=parseInt(item.productNum)+shopnum;
           }
-          // console.log(num);
         })
-                 console.log(goodsItme)
         // goodsItme.productNum=num
         if(goodsItme){
             userdoc.save(function(err2,doc2){
@@ -142,7 +138,6 @@ if(userId===undefined){
                 doc.checked=1;
                 userdoc.cartList.push(doc)
                 userdoc.save(function(err2,doc2){
-                  console.log(doc)
                   if(err2){
                     res.json({
                       status:"1",
@@ -163,6 +158,37 @@ if(userId===undefined){
  			}
  		}
  	})
+ })
+
+ // 获取商品详情的方法
+ router.get("/getProductDetail", function (req, res, next) {
+   console.log(req.query)
+   let id = req.query.id
+   Goods.findOne({
+     productId: id
+   }, function (err, doc) {
+     if (err) {
+       res.json({
+         status: '1',
+         msg: err.message
+       })
+     } else {
+       if (doc.length === 0) {
+         res.json({
+           status: '0',
+           msg: '该商品已下架,您已无法评论'
+         })
+       } else {
+         let obj = {}
+         obj.productImage = doc['productImage']
+         obj.productName = doc['productName']
+         res.json({
+           status: '0',
+           result: obj
+         })
+       }
+     }
+   })
  })
 
  module.exports = router;//输出router

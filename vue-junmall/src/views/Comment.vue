@@ -11,7 +11,7 @@
         <el-tab-pane label="评论" name="comment">
           <div class="comment-area">
             <div style="width: 160px">
-              <img class="product-img" src="" alt="这是一张图片">
+              <img class="product-img" :src="productImg" alt="这是一张图片">
               <p class="product-name" :title="productName">
                 {{ productName }}
               </p>
@@ -24,6 +24,7 @@
                     type="textarea"
                     :rows="5"
                     placeholder="请输入内容"
+                    :debounce="0"
                     v-model="contentArea">
                   </el-input>
                 </el-tab-pane>
@@ -56,11 +57,24 @@ export default {
       activeName: 'comment',
       contentArea: '',
       leftCount: 500,
-      productName: '商品名称'
+      productName: '商品名称',
+      productImg: '',
+    }
+  },
+  watch: {
+    contentArea(newVal, oldVal) {
+      this.leftCount = 500 - newVal.length
+      if (this.leftCount <= 0) {
+        this.leftCount = 0
+        this.$message({
+          type: 'warning',
+          message: '您输入的字数已经超过500字, 别再输入了, 反正我只会读前500个'
+        })
+      }
     }
   },
   methods: {
-
+    // 提交用户评论
     subnitCommentData() {
       let self = this
       let params = {
@@ -68,9 +82,50 @@ export default {
         content: self.contentArea,
       }
       this.axios.post('/comment/saveComment', params).then((res) => {
-        console.log(res)
+        if (res.status === 200) {
+          let data = res.data
+          if (data.status === '0') {
+            this.$message({
+              type: 'success',
+              message: '评论成功,感谢您的评价',
+              onClose: () => {
+                this.$router.push('/order')
+              }
+            })
+          }
+        }
       }) 
-    }
+    },
+    // 获取商品数据
+    getProductData() {
+      let id = this.$route.query.id
+      let params = {
+        id: id
+      }
+      this.axios.get('/goods/getProductDetail', { params }).then((res) => {
+        if (res.status === 200) {
+          let data = res.data
+          if (data.status === '0') {
+            this.productName = data['result']['productName']
+            this.productImg = data['result']['productImage']
+          }
+        }
+      })
+    },
+    // inputValueChange(value) {
+    //   console.log(value)
+    //   this.leftCount = 500 - value.length
+    //   if (this.leftCount <= 0) {
+    //     this.leftCount = 0
+    //     this.$message({
+    //       type: 'warning',
+    //       message: '您输入的字数已经超过500字, 别再输入了, 反正我只会读前500个'
+    //     })
+    //   }
+    // }
+  },
+  created () {
+    this.getProductData()
   }
 }
 </script>
@@ -100,7 +155,7 @@ export default {
 .product-name {
   font-weight: bold;
   height: 24px;
-  line-height: 24px;
+  line-height: 30px;
   width: 160px;
   overflow: hidden;
   text-overflow:ellipsis;

@@ -159,7 +159,6 @@ router.post("/CartList", function (req, res, next) {
 	var userId = req.cookies.userId,
 		productId = req.body.productId;
 
-	console.log(productId)
 	if (productId === "undefined" || productId === undefined || productId == null) {
 		User.findOne({
 			userId: userId
@@ -266,7 +265,6 @@ router.post("/editCheckAll", function (req, res, next) {
 			});
 		} else {
 			if (user) {
-				//console.log(checkAll)
 				user.cartList.forEach((itme) => {
 					itme.checked = checkAll;
 				})
@@ -372,7 +370,6 @@ router.post('/addAddress', function (req, res, next) {
 		postCode = req.body.postCode,
 		streetName = req.body.streetName,
 		tel = req.body.tel;
-	// console.log(userName,postCode,streetName,tel)
 	User.findOne({
 		userId: userId
 	}, function (err, doc) {
@@ -464,19 +461,16 @@ router.post('/payMent', function (req, res, next) {
 				goodsList = [],
 				goodorder;
 			//获取用户的地址
-			console.log(addressId, address)
 			doc.addressList.forEach((item) => {
 				if (addressId == item.addressId) {
 					address = item;
 				}
 			})
-			console.log(productId)
 			if (productId == "undefined" || productId == undefined) {
 				doc.cartList.forEach((item) => {
 					if (item.checked == '1') {
 						//把购物车商品 插入goodsList
 						goodsList.push(item);
-						console.log(item)
 						//删除购物车以下单的商品
 						User.update({
 							userId: userId
@@ -491,7 +485,6 @@ router.post('/payMent', function (req, res, next) {
 				});
 				addorder(ordertotal, address, goodsList)
 
-				console.log('1')
 			} else {
 				Goods.find({
 					"productId": productId
@@ -542,7 +535,6 @@ router.post('/payMent', function (req, res, next) {
 				})
 
 			}
-			console.log(goodsList);
 
 		}
 
@@ -552,7 +544,6 @@ router.post('/payMent', function (req, res, next) {
 router.get('/orderDetail', function (req, res, next) {
 	var userId = req.cookies.userId,
 		orderId = req.param('orderId'); //get获取参数param()
-	//console.log(orderId);
 	User.findOne({
 		userId: userId
 	}, function (err, doc) {
@@ -632,7 +623,6 @@ router.get('/order', function (req, res, next) {
 			// }
 			let result = []
 			let orderList = doc[0].orderList
-			console.log(doc)
 			for (let i = 0, len = orderList.length; i < len; i ++) {
 				let tempObj = {}
 				tempObj.time = orderList[i].createData.split(' ')[0]

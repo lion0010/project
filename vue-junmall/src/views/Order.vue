@@ -146,7 +146,6 @@ export default {
     // 获取订单列表
     getOrder() {
       this.axios.get('/users/order').then((res) => {
-        console.log(res)
         if (res.status === 200) {
           let data = res.data.result
           this.orderData = data
