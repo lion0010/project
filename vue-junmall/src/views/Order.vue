@@ -112,7 +112,6 @@
 import NavHeader from '@/components/Header'
 import NavFooter from '@/components/Footer'
 import NavBread from '@/components/Bread'
-import axios from 'axios'
 export default {
   components: {
     NavHeader,
@@ -156,7 +155,7 @@ export default {
     },
     // 评论的方法
     commentProduct(productId) {
-      console.log(productId)
+      this.$router.push({ path: '/comment', query: { id: productId } })
     }
   },
   created() {

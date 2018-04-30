@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var goods = require('./routes/goods');
 var admin = require('./routes/admin');
+var comment = require('./routes/comment')
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 //登录拦截
 app.use(function(req, res, next){
 	//获取cookie
+	console.log('err')
 	if(req.cookies.userId||req.cookies.adminId){
 		next()
 	}else{
@@ -59,9 +61,10 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/goods', goods);
 app.use('/admin', admin);
+app.use('/comment', comment)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+	var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

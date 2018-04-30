@@ -23,6 +23,9 @@ module.exports = {
         },
         '/admin/**':{
             target:'http://localhost:3000'
+        },
+        '/comment/**':{
+            target:'http://localhost:3000'
         }
         //下面代理需要依赖本地服务端
         // '/goods':{

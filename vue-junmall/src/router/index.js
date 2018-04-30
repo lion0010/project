@@ -8,6 +8,7 @@ import Address from '@/views/Address'
 import OrderConfirm from '@/views/OrderConfirm'
 import orderSuccess from '@/views/orderSuccess'
 import Order from '@/views/Order'
+import Comment from '@/views/Comment'
 import Admin from '@/views/admin/Admin'
 import Home from '@/views/admin/Home'
 import userlist from '@/views/admin/userlist'
@@ -58,6 +59,11 @@ export default new Router({
       path: '/order',
       name: 'order',
       component: Order
+    },
+    {
+      path: '/comment',
+      name: 'comment',
+      component: Comment
     },
     {
       path:'/Admin',
