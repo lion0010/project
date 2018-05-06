@@ -8,14 +8,14 @@
  //定义router 查询商品
  router.get("/list",function(req,res,next){
     //param接受前端参数
-  let page = parseInt(req.param("page"));
-    var pageSize = parseInt(req.param("pageSize")),
-    priceLevel= req.param("priceLevel"),
-    sort = req.param("sort"),
-    skip = (page-1)*pageSize,
-    classifynum= req.param("classify"),
-    priceGt =req.param("priceGt"),
-    priceLte=req.param("priceLte"),
+  let page = parseInt(req.param("page")) || 1;
+    var pageSize = parseInt(req.param("pageSize")) || 8,
+    priceLevel= req.param("priceLevel") || 'all',
+    sort = req.param("sort") || 1,
+    skip = (page-1)*pageSize,               // 跳过多少条
+    classifynum= req.param("classify"),     // 类别
+    priceGt =req.param("priceGt") || 0,
+    priceLte=req.param("priceLte") || 0,
     shopname=req.param("shopname");
     shopid=req.param("shopid");
     //商品分类
@@ -46,7 +46,7 @@
     }else if(shopid!==undefined) {
          var params = {productId:shopid};
     }else{
-          var params = {};
+        var params = {};
     }
     //根据id查询商品信息
 
