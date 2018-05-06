@@ -37,7 +37,7 @@
       <div class="container">
         <div class="index_nav">
           <span class="index_sort">女士专区</span>
-          <router-link class='default cur' to="/GoodsList">查看全部<span style="margin-left:5px;">&gt</span></router-link>
+          <router-link class='default cur' to="/GoodsList?classify=0">查看全部<span style="margin-left:5px;">&gt</span></router-link>
         </div>
         <div class="accessory-result">
           <!-- search result accessories list -->
@@ -62,7 +62,7 @@
       <div class="container">
         <div class="index_nav">
           <span class="index_sort">男士专区</span> 
-          <router-link class='default cur' to="/GoodsList">查看全部<span style="margin-left:5px;">&gt</span></router-link>
+          <router-link class='default cur' to="/GoodsList?classify=1">查看全部<span style="margin-left:5px;">&gt</span></router-link>
         </div>
         <div class="accessory-result">
           <!-- search result accessories list -->
@@ -87,7 +87,7 @@
       <div class="container">
         <div class="index_nav">
           <span class="index_sort">精品鞋区</span> 
-          <router-link class='default cur' to="/GoodsList">查看全部<span style="margin-left:5px;">&gt</span></router-link>
+          <router-link class='default cur' to="/GoodsList?classify=2">查看全部<span style="margin-left:5px;">&gt</span></router-link>
         </div>
         <div class="accessory-result">
           <!-- search result accessories list -->
@@ -111,7 +111,7 @@
       <div class="container">
         <div class="index_nav">
           <span class="index_sort">家电数码</span> 
-          <router-link class='default cur' to="/GoodsList">查看全部<span style="margin-left:5px;">&gt</span></router-link>
+          <router-link class='default cur' to="/GoodsList?classify=3">查看全部<span style="margin-left:5px;">&gt</span></router-link>
         </div>
         <div class="accessory-result">
           <!-- search result accessories list -->
@@ -137,7 +137,7 @@
       <div class="container">
         <div class="index_nav">
           <span class="index_sort">箱包专区</span> 
-          <router-link class='default cur' to="/GoodsList">查看全部<span style="margin-left:5px;">&gt</span></router-link>
+          <router-link class='default cur' to="/GoodsList?classify=4">查看全部<span style="margin-left:5px;">&gt</span></router-link>
         </div>
         <div class="accessory-result">
           <!-- search result accessories list -->
@@ -163,7 +163,7 @@
       <div class="container">
         <div class="index_nav">
           <span class="index_sort">美味零食</span> 
-          <router-link class='default cur' to="/GoodsList">查看全部<span style="margin-left:5px;">&gt</span></router-link>
+          <router-link class='default cur' to="/GoodsList?classify=5">查看全部<span style="margin-left:5px;">&gt</span></router-link>
         </div>
         <div class="accessory-result">
           <!-- search result accessories list -->

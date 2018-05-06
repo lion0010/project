@@ -22,34 +22,43 @@
     //商品分类
     if(classifynum!==undefined){
       params={
-        salePrice:{
-          $gt:priceGt,
-          $lte:priceLte,
-      },
         classify:classifynum,
       }
-    //筛选价格
-    }else if(priceLevel!=='all'&&classifynum===undefined&&shopname===undefined){
-      params={
-        salePrice:{
-          $gt:priceGt,
-          $lte:priceLte,
-        }
-      }
+    }
     //模糊搜索
-    }else if(shopname!==undefined){
+    if(shopname!==undefined){
       params = {
         productName:{ $regex:shopname }
       };
       //获取搜索条数
       Goods.find(params).count(function(err, res){counts=res});
-    //根据id查询商品信息
-    }else{
-      params = {};
     }
+    //按分类筛选价格
+    if(priceLevel!=='all'&&classifynum){
+      params={
+        salePrice:{
+          $gt:priceGt,
+          $lte:priceLte,
+        },
+        classify: classifynum
+      }
+    }
+    // 按商品名称筛选
+    if(priceLevel!=='all'&&shopname){
+      params= {
+        salePrice:{
+          $gt:priceGt,
+          $lte:priceLte,
+        },
+        productName:{ $regex:shopname }
+      }
+    }
+
     //根据id查询商品信息
     if (shopid) {
-      params['productId'] = shopid
+      params= {
+        productId: shopid
+      }
     }
 
     //总条数

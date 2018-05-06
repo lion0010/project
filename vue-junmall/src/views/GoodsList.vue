@@ -134,6 +134,7 @@ import axios from 'axios'
         },
           getGoodsList(flag){
             let shopName = this.$route.query['shopName']
+            let classify = parseInt(this.$route.query['classify'])
             var param={
                 pageSize:this.pageSize,
                 page:this.page,
@@ -141,7 +142,8 @@ import axios from 'axios'
                 priceLevel:this.priceChecked,
                 priceGt:parseInt(this.priceGt),
                 priceLte:parseInt(this.priceLte),
-                shopName
+                shopName,
+                classify
             }
             //params传参
             this.loading=true;
@@ -209,14 +211,6 @@ import axios from 'axios'
             })
           },
           shopgo(productId,classify){
-            switch(classify){
-              case '女装':this.classifys="0";break;
-              case '男装':this.classifys="1";break;
-              case '鞋子':this.classifys="2";break;
-              case '数码':this.classifys="3";break;
-              case '包箱':this.classifys="4";break;
-              case '食物':this.classifys="5";break;
-            }
             this.$router.push({
               path: '/GoodsShop',
               query: {
