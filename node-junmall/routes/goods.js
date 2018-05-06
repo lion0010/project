@@ -16,8 +16,9 @@
     classifynum= req.param("classify"),     // 类别
     priceGt =req.param("priceGt") || 0,
     priceLte=req.param("priceLte") || 0,
-    shopname=req.param("shopname");
-    shopid=req.param("shopid");
+    shopname=req.param("shopName");
+    shopid=req.param("shopid"),
+    params = {};
     //商品分类
     if(classifynum!==undefined){
       params={
@@ -28,7 +29,7 @@
         classify:classifynum,
       }
     //筛选价格
-    }else if(priceLevel!=='all'&&classifynum===undefined){
+    }else if(priceLevel!=='all'&&classifynum===undefined&&shopname===undefined){
       params={
         salePrice:{
           $gt:priceGt,
@@ -37,18 +38,19 @@
       }
     //模糊搜索
     }else if(shopname!==undefined){
-      var params = {
+      params = {
         productName:{ $regex:shopname }
       };
       //获取搜索条数
       Goods.find(params).count(function(err, res){counts=res});
     //根据id查询商品信息
-    }else if(shopid!==undefined) {
-         var params = {productId:shopid};
     }else{
-        var params = {};
+      params = {};
     }
     //根据id查询商品信息
+    if (shopid) {
+      params['productId'] = shopid
+    }
 
     //总条数
     Goods.count(function(err, res){
@@ -189,6 +191,36 @@ if(userId===undefined){
        }
      }
    })
+ })
+
+ // 搜索框
+ router.get("/searchGoods", function(req, res, next) {
+  let page = parseInt(req.param("page")) || 1,
+      pageSize = parseInt(req.param("pageSize")) || 8,
+      shopname = req.param('searchKey') || '';
+  let params = {
+    productName: { $regex:shopname }
+  }
+  Goods.find(params, function(err, doc){
+    if (err) {
+      res.json({
+        status: '1',
+        msg: err.message
+      })
+    } else {
+      let len = doc.length > 20 ? 20 : doc.length;
+      let tempArr = []
+      for (let i = 0; i < len; i ++) {
+        let tempObj = {}
+        tempObj.value = doc[i]['productName']
+        tempArr.push(tempObj)
+      }
+      res.json({
+        status: '0',
+        result: tempArr
+      })
+    }
+  });
  })
 
  module.exports = router;//输出router

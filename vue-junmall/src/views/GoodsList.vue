@@ -46,14 +46,12 @@
 
       <!-- search result accessories list -->
       <div class="accessory-list-wrap">
+        <div class="noData" v-if="goodsList.length === 0">该商品不存在</div>
         <div class="accessory-list col-4">
           <ul>
             <li v-for="(item,index) in goodsList"  @click="shopgo(item.productId,item.classify)">
               <div class="pic">
-              <!-- 抓包数据 -->
               <img v-lazy="item.productImage" alt="">
-              <!-- 不使用抓包数据 请开启下面的代码 -->
-                <!-- <a href="#"><img v-lazy="'/static/'+item.productImage" alt=""></a> -->
               </div>
               <div class="main">
                 <div class="name">{{item.productName}}</div>
@@ -83,43 +81,42 @@ import NavFooter from '@/components/Footer'
 import NavBread from '@/components/Bread'
 import Modal from '@/components/Modal'
 import axios from 'axios'
-    export default{
-        data(){
-            return {
-              goodsList:[],//商品数组
-              sortFlag:true,//排序
-              page:1,
-              pageSize:8,
-              busy:true,
-              loading:false,//加载中
-              classifys:'',
-              priceGt:0,
-              priceLte:0,
-              //左边价格列表
-              priceFilter:[
-                {
-                  startPrice:'100.00',
-                  endPrice:'500.00'
-                },
-                {
-                   startPrice:'500.00',
-                   endPrice:'1000.00'
-                },
-                {
-                   startPrice:'1000.00',
-                   endPrice:'2000.00'
-                },
-                 {
-                   startPrice:'2000.00',
-                   endPrice:'5000.00'
-                },
-              ],
-              priceChecked:'all',
-              filterby:false,
-              overLayFlag:false,//移动端筛选
-            }
-        },
-        //使用组件
+  export default{
+          data(){ 
+              return {
+                goodsList:[],//商品数组
+                sortFlag:true,//排序
+                page:1,
+                pageSize:8,
+                busy:true,
+                loading:false,//加载中
+                classifys:'',
+                priceGt:0,
+                priceLte:0,
+                //左边价格列表
+                priceFilter:[
+                  {
+                    startPrice:'100.00',
+                    endPrice:'500.00'
+                  },
+                  {
+                     startPrice:'500.00',
+                     endPrice:'1000.00'
+                  },
+                  {
+                     startPrice:'1000.00',
+                     endPrice:'2000.00'
+                  },
+                   {
+                     startPrice:'2000.00',
+                     endPrice:'5000.00'
+                  },
+                ],
+                priceChecked:'all',
+                filterby:false,
+                overLayFlag:false,//移动端筛选
+              }
+          },
         components: { 
           NavHeader,
           NavFooter,
@@ -133,9 +130,10 @@ import axios from 'axios'
       //全部
       all(){
         this.priceChecked='all'
-            this.getGoodsList();
-      },
+        this.getGoodsList();
+        },
           getGoodsList(flag){
+            let shopName = this.$route.query['shopName']
             var param={
                 pageSize:this.pageSize,
                 page:this.page,
@@ -143,6 +141,7 @@ import axios from 'axios'
                 priceLevel:this.priceChecked,
                 priceGt:parseInt(this.priceGt),
                 priceLte:parseInt(this.priceLte),
+                shopName
             }
             //params传参
             this.loading=true;
@@ -169,7 +168,6 @@ import axios from 'axios'
             })
           },
           setPriceFilter(index,startPrice,endPrice){
-            console.log(startPrice,endPrice)
             this.priceGt=startPrice;
             this.priceLte=endPrice;
             this.priceChecked=index;
@@ -211,18 +209,20 @@ import axios from 'axios'
             })
           },
           shopgo(productId,classify){
-                  switch(classify){
-         case '女装':this.classifys="0";break;
-         case '男装':this.classifys="1";break;
-         case '鞋子':this.classifys="2";break;
-         case '数码':this.classifys="3";break;
-         case '包箱':this.classifys="4";break;
-         case '食物':this.classifys="5";break;
-      }
-      console.log(this.classifys)
-              // this.$router.push({
-              //       path:'/GoodsShop?shopid='+productId+'&classify='+classify
-              // })
+            switch(classify){
+              case '女装':this.classifys="0";break;
+              case '男装':this.classifys="1";break;
+              case '鞋子':this.classifys="2";break;
+              case '数码':this.classifys="3";break;
+              case '包箱':this.classifys="4";break;
+              case '食物':this.classifys="5";break;
+            }
+            this.$router.push({
+              path: '/GoodsShop',
+              query: {
+                shopid: productId
+              }
+            })
           },
           //购物车模态框
           closePop(){
@@ -232,3 +232,12 @@ import axios from 'axios'
         }
     }
 </script>
+<style scoped>
+.noData {
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: -115px;
+}
+</style>

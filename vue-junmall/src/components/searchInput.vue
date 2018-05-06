@@ -7,8 +7,9 @@
       placeholder="请输入内容"
       @select="handleSelect"
       :size="'medium'"
+      @keydown.native.13="handleSelect"
     >
-      <el-button slot="append">搜索</el-button>
+      <el-button slot="append" @click="handleSelect('clickSearch')">搜索</el-button>
     </el-autocomplete>
 
   </div>
@@ -18,10 +19,7 @@
 export default {
   data() {
     return {
-      loadingData: [
-        { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-        { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
-      ],
+      loadingData: [],
       searchKey: ''
     }
   },
@@ -43,13 +41,43 @@ export default {
   },
   methods: {
     querySearchAsync (queryString, cb) {
-      let _this = self
-      setTimeout(() => {
-        cb(self.loadingData)
-      }, 300000)
+      if (!queryString) {
+        this.loadingData = []
+        cb(this.loadingData)
+        return 
+      }
+      let _this = this
+      let options = {
+        params: {
+          searchKey: queryString
+        }
+      }
+      this.axios.get('/goods/searchGoods', options).then((res) => {
+        if (res.status === 200) {
+          let data = res.data
+          if (data.status === '0') {
+            this.loadingData = data.result
+            cb(this.loadingData)
+          }
+        } 
+      })
     },
     handleSelect (item) {
       console.log(item)
+      let searchName = ''
+      if (item.keyCode === 13 || item === 'clickSearch') {
+        searchName = this.searchKey
+      } else {
+        searchName = item.value
+      }
+      if (searchName) {
+        this.$router.push({
+          path: '/GoodsList',
+          query: {
+            shopName: searchName
+          }
+        })
+      }
     }
   }
 }

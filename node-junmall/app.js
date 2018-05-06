@@ -44,7 +44,14 @@ app.use(function(req, res, next){
   		url: '/main?p1=123&p2=456'
 		 */
 		
-		if(req.path=='/admin/imglist'||req.originalUrl=='/admin/login'||req.originalUrl=='/users/login'||req.originalUrl=='/users/logout'||req.path=='/goods/list'||req.path=='/goods/lists'||req.path=='/users/Signup'){
+		if( req.path=='/admin/imglist'||
+				req.originalUrl=='/admin/login'||
+				req.originalUrl=='/users/login'||
+				req.originalUrl=='/users/logout'||
+				req.path=='/goods/list'||
+				req.path=='/goods/lists'||
+				req.path== '/goods/searchGoods'||
+				req.path=='/users/Signup'){
 			next()
 		}else{
 			// next()

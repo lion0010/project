@@ -60,7 +60,6 @@ export default {
       this.axios.get('/comment/getComment', { params }).then((res) => {
         if (res.status === 200) {
           let data = res.data;
-          console.log(data)
           if (data.status === "0") {
             this.userCommentInfoArr = data.result
           }
@@ -76,7 +75,7 @@ export default {
         supportId: obj.isUse
       }
       this.axios.post('/comment/updateUse', params).then((res) => {
-        console.log(res)
+        // console.log(res)
       })
     }
   },
