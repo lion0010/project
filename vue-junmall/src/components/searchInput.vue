@@ -96,13 +96,14 @@ export default {
 </style>
 <style scoped>
 .search-part {
-  max-width: 500px;
+  min-width: 500px;
+  max-width: 600;
   position: absolute;
   right: 0;
   bottom: 0;
 }
 .center {
-  left: 50%;
+  left: 100%;
   transform: translateX(-50%);
 }
 </style>

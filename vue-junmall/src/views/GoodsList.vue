@@ -1,10 +1,10 @@
 <template>
-    <div>
-      <nav-header></nav-header>
-      <nav-bread>
-        <span>全部商品</span>
-      </nav-bread>
-      <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<div>
+  <nav-header></nav-header>
+  <nav-bread>
+    <span>全部商品</span>
+  </nav-bread>
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
       <symbol id="icon-arrow-short" viewBox="0 0 25 32">
         <title>arrow-short</title>
@@ -24,53 +24,56 @@
       </symbol>
     </defs>
   </svg>
-      <div class="accessory-result-page accessory-page">
-  <div class="container">
-    <div class="filter-nav">
-      <span class="sortby">排序</span>
-      <a href="javascript:void(0)" class="default cur">默认</a>
-      <a href="javascript:void(0)" class="price"  @click="sortGoods">价格 <svg class="icon icon-arrow-short" v-bind:class="{'sort-up':sortFlag}" ><use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-short"></use></svg></a>
-      <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterpop">筛选</a>
-    </div>
-    <div class="accessory-result">
-      <!-- filter -->
-      <div class="filter stopPop" id="filter" :class="{'filterby-show':filterby}">
-        <dl class="filter-price">
-          <dt>价格范围:</dt>
-          <dd><a href="javascript:void(0)" :class="{'cur':priceChecked=='all'}" @click="all">全部</a></dd>
-          <dd v-for="(price,index) in priceFilter">
-            <a href="javascript:void(0)"  @click="setPriceFilter(index,price.startPrice,price.endPrice)" :class="{'cur':priceChecked==index}">{{price.startPrice}} - {{price.endPrice}}</a>
-          </dd>
-        </dl>
+  <div class="accessory-result-page accessory-page">
+    <div class="container">
+      <div class="filter-nav">
+        <span class="sortby">排序</span>
+        <a href="javascript:void(0)" class="default cur">默认</a>
+        <a href="javascript:void(0)" class="price"  @click="sortGoods">价格 <svg class="icon icon-arrow-short" v-bind:class="{'sort-up':sortFlag}" ><use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-short"></use></svg></a>
+        <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterpop">筛选</a>
       </div>
-
-      <!-- search result accessories list -->
-      <div class="accessory-list-wrap">
-        <div class="noData" v-if="goodsList.length === 0">该商品不存在</div>
-        <div class="accessory-list col-4">
-          <ul>
-            <li v-for="(item,index) in goodsList"  @click="shopgo(item.productId,item.classify)">
-              <div class="pic">
-              <img v-lazy="item.productImage" alt="">
-              </div>
-              <div class="main">
-                <div class="name">{{item.productName}}</div>
-                <div class="price">{{item.salePrice|currency('&yen')}}</div>
-              </div>
-            </li>
-          
-          </ul>
-          <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30"  class="text_center">
-            <img src="./../../static/loading-svg/loading-spinning-bubbles.svg" v-show="loading">
+      <div class="accessory-result">
+        <!-- filter -->
+        <div class="filter stopPop" id="filter" :class="{'filterby-show':filterby}">
+          <dl class="filter-price">
+            <dt>价格范围:</dt>
+            <dd><a href="javascript:void(0)" :class="{'cur':priceChecked=='all'}" @click="all">全部</a></dd>
+            <dd v-for="(price,index) in priceFilter">
+              <a href="javascript:void(0)"  @click="setPriceFilter(index,price.startPrice,price.endPrice)" :class="{'cur':priceChecked==index}">{{price.startPrice}} - {{price.endPrice}}</a>
+            </dd>
+          </dl>
         </div>
+
+        <!-- search result accessories list -->
+        <div class="accessory-list-wrap">
+          <div class="noData" v-if="goodsList.length === 0">该商品不存在</div>
+          <div class="accessory-list col-4">
+            <ul>
+              <li v-for="(item,index) in goodsList"  @click="shopgo(item.productId,item.classify)">
+                <div class="pic">
+                <img v-lazy="item.productImage" alt="">
+                </div>
+                <div class="main">
+                  <div class="name">{{item.productName}}</div>
+                  <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                </div>
+              </li>
+            
+            </ul>
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30"  class="text_center">
+              <img src="./../../static/loading-svg/loading-spinning-bubbles.svg" v-show="loading">
+          </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-      </div>
-      <div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
-      <nav-footer></nav-footer>
-    </div>
+  <div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
+  <nav-footer></nav-footer>
+  <transition name="show">
+    <to-top></to-top>  	
+  </transition>
+</div>
 </template>
 <script>
 import '../assets/css/checkout.css'
@@ -80,6 +83,7 @@ import NavHeader from '@/components/Header'
 import NavFooter from '@/components/Footer'
 import NavBread from '@/components/Bread'
 import Modal from '@/components/Modal'
+import toTop from '@/components/toTop'
 import axios from 'axios'
   export default{
           data(){ 
@@ -122,6 +126,7 @@ import axios from 'axios'
           NavFooter,
           NavBread,
           Modal,
+          toTop
         },
         mounted() {
           this.getGoodsList();//调用商品列表

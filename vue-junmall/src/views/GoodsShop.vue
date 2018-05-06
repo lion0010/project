@@ -94,6 +94,9 @@
         </div>
       </modal>
       <nav-footer></nav-footer>
+      <transition name="show">
+        <to-top></to-top>  	
+      </transition>
     </div>
 </template>
 
@@ -237,6 +240,7 @@ import NavHeader from "@/components/Header";
 import NavFooter from "@/components/Footer";
 import NavBread from "@/components/Bread";
 import Modal from "@/components/Modal";
+import toTop from '@/components/toTop'
 import UserComment from "@/components/userComment"
 import "element-ui/lib/theme-chalk/display.css";
 import axios from "axios";
@@ -263,6 +267,7 @@ export default {
     NavFooter,
     NavBread,
     Modal,
+    toTop,
     UserComment
   },
   mounted() {

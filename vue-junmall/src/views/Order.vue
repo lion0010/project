@@ -105,6 +105,9 @@
       </div>
     </div>
     <nav-footer></nav-footer>
+    <transition name="show">
+      <to-top></to-top>  	
+    </transition>
   </div>
 </template>
 
@@ -112,11 +115,13 @@
 import NavHeader from '@/components/Header'
 import NavFooter from '@/components/Footer'
 import NavBread from '@/components/Bread'
+import toTop from '@/components/toTop'
 export default {
   components: {
     NavHeader,
     NavFooter,
-    NavBread
+    NavBread,
+    toTop
   },
   data() {
     return {

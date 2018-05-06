@@ -1310,3 +1310,11 @@ html {
     font-size: 12px;
   } */
 }
+
+.show-enter-active, .show-leave-active {
+  transition: all 1s;
+}
+.show-enter, .show-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}

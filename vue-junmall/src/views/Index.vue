@@ -214,7 +214,10 @@
       </div>
     </div>
   </div>
-	<nav-footer></nav-footer>	  	
+	<nav-footer></nav-footer>
+  <transition name="show">
+    <to-top></to-top>  	
+  </transition>
 </div>
 </template>
 <style>
@@ -253,7 +256,7 @@
   height: 100%;
 }
 .search-box {
-  width: 100%;
+  width: 50%;
   padding: 0 10px;
   margin: auto 0;
   height: 70px;
@@ -268,6 +271,7 @@ import NavFooter from "@/components/Footer";
 import NavBread from "@/components/Bread";
 import Modal from "@/components/Modal";
 import SearchInput from '@/components/searchInput' 
+import toTop from '@/components/toTop'
 import "../assets/css/product.css";
 import "../assets/css/base.css";
 import "../assets/css/checkout.css";
@@ -299,7 +303,8 @@ export default {
     NavFooter,
     NavBread,
     Modal,
-    SearchInput
+    SearchInput,
+    toTop
   },
   mounted() {
     axios.get("/admin/imglist").then(result => {
