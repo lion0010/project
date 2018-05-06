@@ -74,7 +74,7 @@
             let res=renponse.data;
             if(res.status=='0'){
               this.$notify({
-                title: '小俊提示',
+                title: 'Tip',
                 message: '登录成功',
                 type: 'success',
                 duration: 2000
