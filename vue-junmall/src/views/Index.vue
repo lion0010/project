@@ -240,6 +240,7 @@
 }
 .swiper-container {
   max-width: 1280px;
+  margin-top: 90px;
 }
 .swiper-wrapper {
   width: 100%;
@@ -262,6 +263,7 @@
   height: 70px;
   line-height: 70px;
   position: fixed;
+  top: 0;
   z-index: 99;
 }
 </style>

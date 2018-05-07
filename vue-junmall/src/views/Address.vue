@@ -327,13 +327,13 @@ import axios from 'axios'
           btnNext(){
               if (this.addressList.length==0){
                      this.$notify.info({
-                        title: '小俊提示',
+                        title: 'Tip',
                         message: '请您设置一个默认收货地址',
                         duration: 3000
                 });
             }else if(this.selectedAddreid==''){
                 this.$notify.info({
-                        title: '小俊提示',
+                        title: 'Tip',
                         message: '请点击选择一个地址',
                         duration: 3000
                 });
@@ -371,7 +371,7 @@ import axios from 'axios'
               if (res.status=='0'){
                  this.ress=false
                 this.$notify({
-                  title: '小俊提示',
+                  title: 'Tip',
                   message: '添加地址成功',
                   type: 'success'
               });

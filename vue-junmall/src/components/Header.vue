@@ -10,7 +10,7 @@
   </symbol>
   <div class="navbar">
     <div class="navbar-left-container">
-      <a href="/junmall">
+      <a href="/">
         <img class="navbar-brand-logo" src="static/logo.jpg"></a>
     </div>
     <div class="navbar-right-container" style="display: flex;">
@@ -233,7 +233,7 @@ export default {
             this.rorTip = false;
             this.nikeName = res.result.userName;
             this.$notify({
-              title: "小俊提示",
+              title: "Tip",
               message: "登录成功",
               type: "success",
               duration: 2000
@@ -284,7 +284,7 @@ export default {
                 this.Signdiv = false;
                 //接口直接赋值
                 this.$notify({
-                  title: "小俊提示",
+                  title: "Tip",
                   message: "注册成功",
                   type: "success",
                   duration: 2000
