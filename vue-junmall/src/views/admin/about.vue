@@ -2,10 +2,8 @@
 <template>
 	<div class="abput">
 		<img src="static/head.png" width="20%" /> 
-		<h1>小俊</h1>
-		<h2>来自广州的开发者</h2>
-		<h2>曾经的雄性壮志，如今低头打码</h2>
-		<p><a  target="_blank" href="https://github.com/Apple-ljj">我的github</a><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=794857535&site=qq&menu=yes">QQ交流</a></p>
+		<h2>总有一天，你能活成你梦中的模样。</h2>
+		<p><a  target="_blank" href="https://github.com/lion0010">我的github</a></p>
 	</div>
 </template>
 <style scoped>
