@@ -12,6 +12,8 @@
     var pageSize = parseInt(req.param("pageSize")) || 8,
     priceLevel= req.param("priceLevel") || 'all',
     sort = req.param("sort") || 1,
+    sortGoodsBySalesFlag = req.param("sortGoodsBySalesFlag") || 1,
+    sortBySales = req.param('sortBySales') || false,
     skip = (page-1)*pageSize,               // 跳过多少条
     classifynum= req.param("classify"),     // 类别
     priceGt =req.param("priceGt") || 0,
@@ -70,8 +72,13 @@
     })
   // //Goods.find(params)查找所有数据 skipt跳过条数limit()获取多少跳
   let goodsModel=Goods.find(params).skip(skip).limit(pageSize);
-  // //sort排序
-   goodsModel.sort({"salePrice":sort})//1升序  -1降序
+   if (sortBySales === 'true') {
+    goodsModel.sort({"sales": sortGoodsBySalesFlag})
+   } else {
+    // //sort排序
+    goodsModel.sort({"salePrice":sort})//1升序  -1降序
+   }
+
    goodsModel.exec({},function(err,doc){
     if (err) {
       res.json({
@@ -173,7 +180,6 @@ if(userId===undefined){
 
  // 获取商品详情的方法
  router.get("/getProductDetail", function (req, res, next) {
-   console.log(req.query)
    let id = req.query.id
    Goods.findOne({
      productId: id

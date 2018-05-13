@@ -29,7 +29,8 @@
       <div class="filter-nav">
         <span class="sortby">排序</span>
         <a href="javascript:void(0)" class="default cur">默认</a>
-        <a href="javascript:void(0)" class="price"  @click="sortGoods">价格 <svg class="icon icon-arrow-short" v-bind:class="{'sort-up':sortFlag}" ><use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-short"></use></svg></a>
+        <a href="javascript:void(0)" class="price" :class="{ selectedSort: isSelcted }" @click="sortGoods">价格 <svg class="icon icon-arrow-short" v-bind:class="{'sort-up':sortFlag}" ><use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-short"></use></svg></a>
+        <a href="javascript:void(0)" class="price" :class="{ selectedSort: !isSelcted }" @click="sortGoodsBySales">销量 <svg class="icon icon-arrow-short" v-bind:class="{'sort-up':sortGoodsBySalesFlag}" ><use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-short"></use></svg></a>
         <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterpop">筛选</a>
       </div>
       <div class="accessory-result">
@@ -56,6 +57,7 @@
                 <div class="main">
                   <div class="name">{{item.productName}}</div>
                   <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                  <div class="sales">销量: {{ item.sales || 0 }}</div>
                 </div>
               </li>
             
@@ -90,6 +92,7 @@ import axios from 'axios'
               return {
                 goodsList:[],//商品数组
                 sortFlag:true,//排序
+                sortGoodsBySalesFlag: true,
                 page:1,
                 pageSize:8,
                 busy:true,
@@ -118,7 +121,9 @@ import axios from 'axios'
                 ],
                 priceChecked:'all',
                 filterby:false,
-                overLayFlag:false,//移动端筛选
+                overLayFlag:false,//移动端筛选,
+                isSelcted: true,
+                sortBySales: false,
               }
           },
         components: { 
@@ -144,6 +149,8 @@ import axios from 'axios'
                 pageSize:this.pageSize,
                 page:this.page,
                 sort:this.sortFlag?1:-1,
+                sortGoodsBySalesFlag: this.sortGoodsBySalesFlag?1:-1,
+                sortBySales: this.sortBySales,
                 priceLevel:this.priceChecked,
                 priceGt:parseInt(this.priceGt),
                 priceLte:parseInt(this.priceLte),
@@ -155,11 +162,9 @@ import axios from 'axios'
             axios.get("/goods/list",{params:param}).then((result)=>{
               this.loading=false;
               let res =result.data;
-                  // console.log(res)
               if(res.status=="0"){
                 if(flag){
                   if(res.result.count==0){
-                    // console.log(this.goodsList.count)
                     this.busy=true;
                     }else{
                     this.busy=false;
@@ -171,7 +176,7 @@ import axios from 'axios'
                   }
               }else{
                 this.goodsList=[];
-              }              
+              }    
             })
           },
           setPriceFilter(index,startPrice,endPrice){
@@ -190,7 +195,17 @@ import axios from 'axios'
           //价格排序
           sortGoods(){
             this.sortFlag =!this.sortFlag;
+            this.isSelcted = true
+            this.sortBySales = false
             this.page=1;
+            this.getGoodsList();
+          },
+          // 销量排序
+          sortGoodsBySales() {
+            this.sortBySales = true
+            this.isSelcted = false
+            this.sortGoodsBySalesFlag = !this.sortGoodsBySalesFlag;
+            this.page = 1;
             this.getGoodsList();
           },
           //滚动函数
@@ -238,5 +253,8 @@ import axios from 'axios'
   font-size: 16px;
   font-weight: bold;
   margin-left: -115px;
+}
+.selectedSort {
+  color: #198dd4;
 }
 </style>

@@ -23,8 +23,11 @@
               <div class="Shop_s">
                 <p>颜色/款式：默认</p>
               </div>
-                <div class="Shop_s">
+              <div class="Shop_s">
                 <p>尺码/规格：默认</p>
+              </div>
+              <div class="Shop_s">
+                <p>销量：{{ item.sales || 0 }}</p>
               </div>
               <div></div>
               <div>

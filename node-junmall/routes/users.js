@@ -471,6 +471,22 @@ router.post('/payMent', function (req, res, next) {
 					if (item.checked == '1') {
 						//把购物车商品 插入goodsList
 						goodsList.push(item);
+						// 更新商品销售数量
+						Goods.findOne({
+							productId: item['productId']
+						}, function(err, doc) {
+							var num = 0
+							let tempObj = doc.sales + ''
+							if (isNaN(tempObj === 'null')) {
+								num = 0
+							} else {
+								num = parseInt(doc['sales']) || 0
+							}
+							let total = num + parseInt(item['productNum'])
+							Goods.update({
+								productId: item['productId']
+							}, {'sales': total}, function (err, doc){})
+						})
 						//删除购物车以下单的商品
 						User.update({
 							userId: userId
@@ -489,6 +505,15 @@ router.post('/payMent', function (req, res, next) {
 				Goods.find({
 					"productId": productId
 				}, function (err1, doc1) {
+					// 更新商品销量
+					Goods.findOne({
+						productId: item['productId']
+					}, function(err, doc) {
+						console.log(doc)
+						Goods.update({
+							productId: item['productId']
+						}, {$set: {'sales': parseInt((doc['sales'] || 0)) + parseInt(item['productName'])}})
+					})
 					addorder(ordertotal, address, doc1)
 				})
 

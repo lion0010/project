@@ -51,6 +51,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>
                   </div>
                 </li>
               
@@ -76,6 +77,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>
                   </div>
                 </li>
               
@@ -101,6 +103,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>
                   </div>
                 </li>
               </ul>
@@ -126,6 +129,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>
                   </div>
                 </li>
               
@@ -152,6 +156,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>
                   </div>
                 </li>
               
@@ -177,6 +182,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>
                   </div>
                 </li>
               
@@ -203,6 +209,7 @@
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice|currency('&yen')}}</div>
+                    <div class="sales">销量: {{ item.sales || 0 }}</div>                    
                   </div>
                 </li>
               </ul>
