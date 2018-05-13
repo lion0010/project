@@ -1,9 +1,10 @@
 <template>
 <div>
-	<nav-header></nav-header>
-  <div class="search-box">
-    <search-input :searchAuto="true" :isCenter="true"></search-input>
-  </div>
+	<nav-header>
+    <div class="search-box">
+      <search-input :searchAuto="true" :isCenter="true"></search-input>
+    </div>
+  </nav-header>
   <div>
     <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs>

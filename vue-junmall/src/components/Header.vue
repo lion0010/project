@@ -93,6 +93,8 @@
           </div>
         </div>
         <div class="md-overlay" v-if="Signdiv" @click="Signdiv=false" ></div>
+        <slot>
+        </slot> 
 </header>
 </template>
 <style>
@@ -100,12 +102,10 @@
 </style>
 <script type="text/javascript">
 import "./../assets/css/login.css";
-// import verify from "vue-verify-plugin";
 import axios from "axios";
 import { mapState } from "vuex"; //多个vuex引入简写
-// Vue.use(verify,{
-//     blur:true
-// });
+import md5 from 'md5'
+
 export default {
   data() {
     var validatename = (rule, value, callback) => {
@@ -222,7 +222,7 @@ export default {
       axios
         .post("/users/login", {
           userName: this.ruleForm.userName,
-          userPwd: this.ruleForm.userPwd
+          userPwd: md5(this.ruleForm.userPwd)
         })
         .then(renponse => {
           let res = renponse.data;
@@ -275,7 +275,7 @@ export default {
           axios
             .post("/users/Signup", {
               userName: this.ruleForm.name,
-              userPwd: this.ruleForm.checkPass,
+              userPwd: md5(this.ruleForm.checkPass),
               userEmail: this.ruleForm.email
             })
             .then(renponse => {
