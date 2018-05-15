@@ -153,7 +153,7 @@ export default {
       this.axios.get('/users/order').then((res) => {
         if (res.status === 200) {
           let data = res.data.result
-          this.orderData = data
+          this.orderData = data.reverse()
         }
       }) 
     },
