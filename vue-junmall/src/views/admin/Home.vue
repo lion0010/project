@@ -6,12 +6,12 @@
 				<span>
 					<!-- 万鹿商城管理系统 -->
 					<a href="/junmall/#/Home/about">
-					<img src="static/adminlogo.png" /> 
+					<img src="../../../static/logo.jpg" /> 
 					</a>
 				</span>
 			</el-col>
 			<el-col :span="4" class="admin_img">
-					<img src="static/admin.png" width="50px;" /> 
+					<img src="../../../static/admin.png" width="50px;" /> 
 			</el-col>
 			<el-col :span="4" class="admininfo">
 				<!-- <img src="static/admin.png" width="20%" />  -->
@@ -63,7 +63,7 @@
           <el-menu-item index="3-1" :route="{path: '/Home/imglist'}">首页轮播图设置</el-menu-item>
         </el-menu-item-group>
          <el-menu-item-group>
-          <el-menu-item index="3-2" :route="{path: '/Home/test'}">爬虫设置</el-menu-item>
+          <el-menu-item index="3-2" :route="{path: '/Home/test'}">数据展示</el-menu-item>
         </el-menu-item-group>
           <el-menu-item-group>
           <el-menu-item index="3-3" :route="{path: '/Home/about'}">关于我</el-menu-item>

@@ -619,6 +619,11 @@ router.get('/orderDetail', function (req, res, next) {
 // 获取用户订单列表
 router.get('/order', function (req, res, next) {
 	let userId = req.cookies.userId;
+	let isSelectedUserId = req.query['SelectedUserId']
+	if (isSelectedUserId === 'true') {
+		userId = req.query['userId']
+	}
+
 	User.find({
 		userId
 	}, function (err, doc) {
@@ -629,23 +634,6 @@ router.get('/order', function (req, res, next) {
 			})
 		} else {
 
-			// {
-			// 	time: '2018-03-20',
-			// 	orderId: 666666666666666666,
-			// 	tableData: [{
-			// 		img: '2016-05-04',
-			// 		detail: {
-			// 			productName: '这是一件商品',
-			// 			desc: '这是对商品的描述'
-			// 		},
-			// 		signal: '8',
-			// 		number: 1,
-			// 		productOpe: '',
-			// 		realPayment: '8',
-			// 		status: '交易成功',
-			// 		comment: '评论'
-			// 	}]
-			// }
 			let result = []
 			let orderList = doc[0].orderList
 			for (let i = 0, len = orderList.length; i < len; i ++) {
@@ -663,6 +651,7 @@ router.get('/order', function (req, res, next) {
 					obj.detail.productId = goods[j]['productId']
 					obj.signal = goods[j]['salePrice']
 					obj.number = goods[j]['productNum']
+					obj.classify = goods[j]['classify']
 					obj.productOpt = '',
 					obj.realPayment = goods[j]['salePrice']
 					obj.status = '交易成功'
@@ -674,6 +663,22 @@ router.get('/order', function (req, res, next) {
 			res.json({
 				status: '0',
 				result: result
+			})
+		}
+	})
+})
+// 获取用户列表
+router.get('/userList', function (req, res,next) {
+	User.find({}, function (err, doc) {
+		if (err) {
+			res.json({
+				status: '1',
+				message: err.message
+			})
+		} else {
+			res.json({
+				status: '0',
+				data: doc
 			})
 		}
 	})

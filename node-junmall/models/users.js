@@ -6,7 +6,7 @@ var userSchema = new mongoose.Schema({
 	"userPwd":String,
 	"userEmail":String,
 	"orderList":Array,
-    "createTime":String,
+  "createTime":String,
 	"cartList":[
 		{
 			"productId":String,
@@ -15,7 +15,7 @@ var userSchema = new mongoose.Schema({
 			"productImage":String,
 			"checked":String,
 			"productNum":String,
-
+			"classify": String
 		}
 	],
 	"addressList":[

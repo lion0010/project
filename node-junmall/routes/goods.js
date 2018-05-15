@@ -100,7 +100,11 @@
  });
  //加入购物车
  router.post("/addCart",function(req,res,next){
-  var userId = req.cookies.userId,productId=req.body.productId,num=req.body.num,shopnum=parseInt(num),checked=req.body.checked,checked;
+  var userId = req.cookies.userId,
+      productId=req.body.productId,
+      num=req.body.num,
+      shopnum=parseInt(num),
+      checked=req.body.checked,checked;
  	//查询userId
 if(userId===undefined){
       res.json({
@@ -154,7 +158,8 @@ if(userId===undefined){
               if(doc){
                 doc.productNum=num;
                 doc.checked=1;
-                userdoc.cartList.push(doc)
+                doc.classify = doc.classify;
+                userdoc.cartList.push(doc);
                 userdoc.save(function(err2,doc2){
                   if(err2){
                     res.json({

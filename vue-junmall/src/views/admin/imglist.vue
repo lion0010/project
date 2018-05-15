@@ -81,7 +81,6 @@ import axios from 'axios'
         return isJPG ;
       },
       uploadersuc(fulAvatar){
-        console.log(111)
         this.userlist();
       },
       handleEdit(index, row) {
@@ -106,7 +105,6 @@ import axios from 'axios'
             axios.get("/admin/imglist").then((res)=>{
               this.loading=false;
               let result =res.data;
-              console.log(res)
               if(result.status=="0"){
                 this.imglist=result.result.list
               }              
