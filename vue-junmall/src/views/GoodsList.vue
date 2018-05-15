@@ -24,9 +24,26 @@
       </symbol>
     </defs>
   </svg>
+ 
   <div class="accessory-result-page accessory-page">
     <div class="container">
       <div class="filter-nav">
+        <div class="priceLevel demo-input-suffix">
+          <span style="padding-right: 8px">价格区间</span>
+          <el-input
+            placeholder="请输入价格"
+            v-model="startPrice"
+            @keyup.native.13="searchPro"
+            number>
+          </el-input>
+          -
+          <el-input
+            placeholder="请输入价格"
+            v-model="endPrice"
+            @keyup.native.13="searchPro"
+            number>
+          </el-input>
+        </div>
         <span class="sortby">排序</span>
         <a href="javascript:void(0)" class="default cur">默认</a>
         <a href="javascript:void(0)" class="price" :class="{ selectedSort: isSelcted }" @click="sortGoods">价格 <svg class="icon icon-arrow-short" v-bind:class="{'sort-up':sortFlag}" ><use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-short"></use></svg></a>
@@ -35,21 +52,12 @@
       </div>
       <div class="accessory-result">
         <!-- filter -->
-        <div class="filter stopPop" id="filter" :class="{'filterby-show':filterby}">
-          <dl class="filter-price">
-            <dt>价格范围:</dt>
-            <dd><a href="javascript:void(0)" :class="{'cur':priceChecked=='all'}" @click="all">全部</a></dd>
-            <dd v-for="(price,index) in priceFilter">
-              <a href="javascript:void(0)"  @click="setPriceFilter(index,price.startPrice,price.endPrice)" :class="{'cur':priceChecked==index}">{{price.startPrice}} - {{price.endPrice}}</a>
-            </dd>
-          </dl>
-        </div>
 
         <!-- search result accessories list -->
         <div class="accessory-list-wrap">
           <div class="noData" v-if="goodsList.length === 0">该商品不存在</div>
           <div class="accessory-list col-4">
-            <ul>
+            <ul style="padding-left: 4%">
               <li v-for="(item,index) in goodsList"  @click="shopgo(item.productId,item.classify)">
                 <div class="pic">
                 <img v-lazy="item.productImage" alt="">
@@ -101,6 +109,8 @@ import axios from 'axios'
                 priceGt:0,
                 priceLte:0,
                 //左边价格列表
+                startPrice: '',
+                endPrice: '',
                 priceFilter:[
                   {
                     startPrice:'100.00',
@@ -219,7 +229,6 @@ import axios from 'axios'
           //加入购物车
           addCart(productId){
             axios.post("/goods/addCart",{productId:productId}).then((res)=>{
-              // console.log(res);
               if(res.data.status==0){
                 // alert("加入成功");
                 this.mdShowCart=true;
@@ -243,9 +252,36 @@ import axios from 'axios'
               this.filterby=false,
               this.overLayFlag=false
           },
+          searchPro() {
+            let start = parseInt(this.startPrice)
+            let end = parseInt(this.endPrice)
+            if (isNaN(start) || isNaN(end)) {
+              this.$message({
+                type: 'error',
+                message: '价格必须是数字'
+              })
+            }
+            if (start > end) {
+              let temp = start
+              this.startPrice = end
+              start = end
+              this.endPrice = temp
+              end = temp
+            }
+            this.priceGt = start
+            this.priceLte = end
+            this.page = 1;
+            this.getGoodsList()
+          }
         }
     }
 </script>
+<style>
+.accessory-result-page .el-input {
+  width: auto;
+}
+</style>
+
 <style scoped>
 .noData {
   width: 100%;
@@ -256,5 +292,8 @@ import axios from 'axios'
 }
 .selectedSort {
   color: #198dd4;
+}
+.priceLevel {
+  float: left;
 }
 </style>

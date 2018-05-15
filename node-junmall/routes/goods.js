@@ -22,9 +22,17 @@
     shopid=req.param("shopid"),
     params = {};
     //商品分类
-    if(classifynum!==undefined){
+    if(classifynum!==undefined && (priceGt != 0 || priceLte != 0)){
       params={
         classify:classifynum,
+        salePrice:{
+          $gt:priceGt,
+          $lte:priceLte,
+        },
+      }
+    } else if (classifynum!==undefined && priceGt == 0 && priceGt == 0){
+      params={
+        classify: classifynum
       }
     }
     //模糊搜索

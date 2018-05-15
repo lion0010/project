@@ -30,8 +30,9 @@
 }
 
 .accessory-list.col-4 > ul > li {
-  width: 23.80952%;
-  margin-right: 1.5873%;
+  width: 21%;
+  margin-right: 4%;
+  box-sizing: border-box;
   margin-bottom: 1.5873%;
 }
 

@@ -13,7 +13,7 @@ import VueAxios from 'vue-axios'
 Vue.use(scroll)
 //使用懒加载插件
 Vue.use(VuelazyLoad,{
-	loading:'/static/loading-svg/loading-bars.svg'
+	loading:'/static/loading-svg/Spinner-1.6s-120px.svg'
 })
 // 注入axios
 Vue.use(VueAxios, axios)
