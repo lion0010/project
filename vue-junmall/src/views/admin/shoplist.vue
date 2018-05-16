@@ -258,7 +258,7 @@ import axios from 'axios'
               if(res.status=="0"){
                 this.counts=res.result.counts
                   this.goodsLists=res.result.list;
-              }             
+              }
             })
           },
           editshop(formName){
@@ -308,9 +308,25 @@ import axios from 'axios'
 
           }
         })
-          },
+      },
+      searchGoodsDetails(){
+        let param={
+          pageSize:5,
+          page:1,
+          sort:1,
+          priceLevel:'all',
+          shopName:this.sou.name
+        }
+        axios.get("/goods/list",{params:param}).then((result)=>{
+          let res = result.data;
+          if(res.status=="0"){
+          this.counts = res.result.counts
+            this.goodsLists = res.result.list;
+          }
+        })
+      },
           sousou(){
-             this.getGoodsList();
+             this.searchGoodsDetails();
           }
     }
   }
