@@ -1,6 +1,5 @@
 <template>
 	<div class="abput">
-		<img src="static/head.png" width="20%" />
 		<h1>基于VUE的商城购物系统</h1>
 		<h2>组员</h2>
 		<h2>葛礼明, 马东旭, 叶家辉</h2>

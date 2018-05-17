@@ -36,11 +36,20 @@
       }
     }
     //模糊搜索
-    if(shopname!==undefined){
+    if(shopname!==undefined && (priceGt != 0 || priceLte != 0)){
       params = {
-        productName:{ $regex:shopname }
+        productName:{ $regex:shopname },
+        salePrice: {
+          $gt: priceGt,
+          $lte: priceLte
+        }
       };
       //获取搜索条数
+      Goods.find(params).count(function(err, res){counts=res});
+    } else if (shopname !== undefined) {
+      params = {
+        productName: { $regex: shopname }
+      }
       Goods.find(params).count(function(err, res){counts=res});
     }
     //按分类筛选价格

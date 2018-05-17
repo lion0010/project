@@ -12,20 +12,26 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
          //下面代理无需本地服务端
-        '/goods':{
-            target:'http://localhost:3000'
-        },
-        '/goods/*':{
-            target:'//http://localhost:3000'
-        },
-        '/users/**':{
-            target:'http://localhost:3000'
-        },
-        '/admin/**':{
-            target:'http://localhost:3000'
-        },
-        '/comment/**':{
-            target:'http://localhost:3000'
+        // '/goods':{
+        //     target:'http://localhost:3000'
+        // },
+        // '/goods/*':{
+        //     target:'//http://localhost:3000'
+        // },
+        // '/users/**':{
+        //     target:'http://localhost:3000'
+        // },
+        // '/admin/**':{
+        //     target:'http://localhost:3000'
+        // },
+        // '/comment/**':{
+        //     target:'http://localhost:3000'
+        // },
+        '/api/**': {
+            target:'http://localhost:3000',
+            pathRewrite: {
+                '^/api': '/'
+            }
         }
         //下面代理需要依赖本地服务端
         // '/goods':{

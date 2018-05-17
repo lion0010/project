@@ -9,6 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import {currency} from '../src/util/currency'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import apiConfig from '../config/api.config'
+// 配置基础路由
+axios.defaults.baseURL = apiConfig.baseUrl
 //滚动加载插件
 Vue.use(scroll)
 //使用懒加载插件

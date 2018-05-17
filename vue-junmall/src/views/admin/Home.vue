@@ -5,7 +5,7 @@
 			<el-col :span="16" class="logo">
 				<span>
 					<!-- 万鹿商城管理系统 -->
-					<a href="/junmall/#/Home/about">
+					<a href="/">
 					<img src="../../../static/logo.jpg" /> 
 					</a>
 				</span>
@@ -57,7 +57,7 @@
           <span>网站设置</span>
         </template>
          <el-menu-item-group>
-          <el-menu-item  index=""><a href="/junmall"  target="_blank">打开首页</a></el-menu-item>
+          <el-menu-item  index=""><a href="/"  target="_blank">打开首页</a></el-menu-item>
         </el-menu-item-group>
            <el-menu-item-group>
           <el-menu-item index="3-1" :route="{path: '/Home/imglist'}">首页轮播图设置</el-menu-item>
@@ -66,7 +66,7 @@
           <el-menu-item index="3-2" :route="{path: '/Home/test'}">数据展示</el-menu-item>
         </el-menu-item-group>
           <el-menu-item-group>
-          <el-menu-item index="3-3" :route="{path: '/Home/about'}">关于我</el-menu-item>
+          <el-menu-item index="3-3" :route="{path: '/Home/about'}">关于我们</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

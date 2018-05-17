@@ -24,7 +24,8 @@
     <el-table-column
        prop="createTime"
       label="注册时间"
-      width="200">
+      width="200"
+      sortable>
       <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
     </el-table-column>
     <el-table-column label="操作">
@@ -140,7 +141,7 @@ export default {
             confirmButtonText: "确定",
             callback: action => {
               this.$router.push({
-                path: "/junmall/#/admin"
+                path: "/"
               });
             }
           });

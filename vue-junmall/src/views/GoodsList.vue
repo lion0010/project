@@ -111,24 +111,6 @@ import axios from 'axios'
                 //左边价格列表
                 startPrice: '',
                 endPrice: '',
-                priceFilter:[
-                  {
-                    startPrice:'100.00',
-                    endPrice:'500.00'
-                  },
-                  {
-                     startPrice:'500.00',
-                     endPrice:'1000.00'
-                  },
-                  {
-                     startPrice:'1000.00',
-                     endPrice:'2000.00'
-                  },
-                   {
-                     startPrice:'2000.00',
-                     endPrice:'5000.00'
-                  },
-                ],
                 priceChecked:'all',
                 filterby:false,
                 overLayFlag:false,//移动端筛选,
@@ -154,7 +136,10 @@ import axios from 'axios'
         },
           getGoodsList(flag){
             let shopName = this.$route.query['shopName']
-            let classify = parseInt(this.$route.query['classify'])
+            let classify = ''
+            if (!shopName) {
+              classify = parseInt(this.$route.query['classify'])
+            }
             var param={
                 pageSize:this.pageSize,
                 page:this.page,
@@ -260,6 +245,7 @@ import axios from 'axios'
                 type: 'error',
                 message: '价格必须是数字'
               })
+              return
             }
             if (start > end) {
               let temp = start
