@@ -9,7 +9,7 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
     proxyTable: {
          //下面代理无需本地服务端
         // '/goods':{
