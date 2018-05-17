@@ -2,7 +2,7 @@
   <div>
 
 <el-upload
- action="/admin/uploader"
+ action="/api/admin/uploader"
   multiple
   name="fulAvatar"
    :show-file-list="false"
