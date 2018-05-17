@@ -2,7 +2,7 @@
   <div>
 
 <el-upload
- action="/api/admin/uploader"
+ :action="uploadUrl"
   multiple
   name="fulAvatar"
    :show-file-list="false"
@@ -62,8 +62,12 @@ import axios from 'axios'
       return {
           loading: true,
         imglist:[],
-        multipleSelection: []
+        multipleSelection: [],
+        uploadUrl: ''
       }
+    },
+    created() {
+      this.uploadUrl = window.location.origin + '/api/admin/uploader'
     },
     mounted() {
           this.userlist();//调用商品列表
